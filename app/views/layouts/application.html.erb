@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TicTacToe</title>
+  <%= Gon::Base.render_data({}) %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <%= csrf_meta_tags %>
+  <script scr="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

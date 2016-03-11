@@ -1,0 +1,69 @@
+<h1>Tic Tac Toe</h1>
+<div id="lala"></div>
+<table id="tictactoe_board">
+	<tr>
+		<td>x</td>
+		<td>x</td>
+		<td>x</td>
+	</tr>
+	<tr>
+		<td>o</td>
+		<td>o</td>
+		<td>o</td>
+	</tr>
+	<tr>
+		<td>o</td>
+		<td>x</td>
+		<td>x</td>
+	</tr>
+</table>
+<%= link_to("back",root_path) %>
+<script>
+	var table;
+	$(document).ready(function(){
+		// console.log(table+"before")
+		table = document.getElementById('tictactoe_board')
+		console.log(table)
+		fill_table()
+
+		$('#tictactoe_board td').on("click",updateTable);
+
+	});
+
+	function fill_table(){
+		game_map = gon.game_map
+		game_map.forEach(function(element){
+			assignCell(element.row,element.col,element.sign);
+		});
+	}
+	function assignCell(row,col,sign){
+		table.rows[row].cells[col].innerHTML=sign;
+	}
+	function updateTable(){
+		console.log("clicked")
+		if(this.innerHTML!="")
+			return ""
+
+		var row = this.parentNode.rowIndex
+		var col = this.cellIndex
+		var sign = "o"
+		assignCell(row,col,sign)
+		
+	  	$.ajax({	  	
+  		method: "post",
+  		url: "/game",
+  		dataType: "json",
+  		data: {row: row,col: col, sign: sign},
+  		success: function(data){
+	  			assignCell(data.row,data.col,data.sign)
+	  		},
+	  	error: function(data){
+	  		console.log("data")
+	  	}
+	  	});
+	}
+	function notify() {
+		console.log(this)
+	  alert( gon.game_map );
+	}
+</script>
