@@ -1,0 +1,1 @@
+table,th,td{border:solid black 1px;border-collapse:collapse}td{width:100px;height:100px;text-align:-webkit-center;font-size:3em}td:hover{background-color:#C8CCFF}.progress{display:none}.progress_image{width:100px}#tictactoe_board{display:none}
