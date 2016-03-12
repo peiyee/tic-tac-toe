@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
 table, th, td {
 	border: solid black 1px;
   	border-collapse: collapse;
@@ -25,5 +26,16 @@ td{
 }
 
 td:hover {
-	background-color: #f5f5f5
+	background-color: #C8CCFF
+}
+.progress{
+	display: none;
+}
+.progress_image {
+	width: 100px;
+}
+
+
+#tictactoe_board {
+	display: none;
 }

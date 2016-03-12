@@ -1,1 +1,114 @@
-<%= link_to("new game",game_path,'data-no-turbolink' => true) %>
+<h1>Tic Tac Toe</h1>
+<button id="btn_computer_first" value="computer">Computer First</button>
+<button id="btn_player_first" value="player">You First</button>
+<p></p>
+<table id="tictactoe_board">
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+
+<div class="progress">
+	<div>i am thinking...</div>
+	<img class="progress_image" src="assets/progress.gif">
+</div>
+<div>
+	<%= link_to("New game",root_path) %>
+</div>
+<script>
+	var table;
+	var turn = ""
+	$(document).ready(function(){
+		// console.log(table+"before")
+		table = document.getElementById('tictactoe_board')
+		console.log(table)
+		$('#btn_computer_first, #btn_player_first').on("click",function(){
+			turn = this.value
+			$('#btn_computer_first').attr('disabled',true)
+			$('#btn_player_first').attr('disabled',true)
+			$("#tictactoe_board").css("display", "-webkit-inline-box");
+			$('#tictactoe_board td').on('click',updateTable)
+			if(turn=="computer"){
+				makeMove("","","",turn);
+				turn = "player";
+			}
+		});
+	});
+
+	function clear_table(){
+		for (var r = 0, n = table.rows.length; r < n; r++) {
+            for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+                table.rows[r].cells[c].innerHTML="";
+            }
+        }
+	}
+	function assignCell(row,col,sign){
+		table.rows[row].cells[col].innerHTML=sign;
+	}
+	function updateTable(){
+		console.log("updateTable")
+		console.log(turn)
+		
+		if(turn=="computer"){
+			console.log("here")
+			makeMove("","","x","computer");
+			turn="player";
+		}
+		else{
+			var row = this.parentNode.rowIndex;
+			var col = this.cellIndex;
+			var sign = "o";
+			console.log(turn+" clicked "+row+" "+col)
+			assignCell(row,col,sign);
+			makeMove(row,col,sign,"player");
+		}
+	}
+
+	function makeMove(row,col,sign,turn){
+		  	$.ajax({	  	
+	  		method: "post",
+	  		url: "/home",
+	  		dataType: "json",
+	  		data: {row: row,col: col, sign: sign, turn: turn},
+	  		beforeSend: function(){
+	  			$('#tictactoe_board td').unbind('click')
+	  			$('.progress').css("display", "block");
+	  		},
+
+	  		success: function(data){
+	  			console.log(data)
+	  				if(!emptyObject(data.move)){
+	  					assignCell(data.move.row,data.move.col,data.move.sign)
+	  				}
+	  				if(data.game_status.over){
+	  					if(!data.game_status.winner)
+	  						alert("Draw")
+	  					else
+	  						alert("Winner is: "+ data.game_status.winner)
+	  				}
+		  		},
+		  	error: function(data){
+		  			console.log("error: "+data)
+		  		},
+	  		complete: function(){
+	  			$('.progress').css("display", "none");
+	  			$('#tictactoe_board td').on('click',updateTable)
+	  		}
+		  	});
+	};
+	function emptyObject(obj){
+		return Object.keys(obj).length === 0 && JSON.stringify(obj) === JSON.stringify({})
+	}
+</script>
