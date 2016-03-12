@@ -31,9 +31,7 @@
 	var table;
 	var turn = ""
 	$(document).ready(function(){
-		// console.log(table+"before")
 		table = document.getElementById('tictactoe_board')
-		console.log(table)
 		$('#btn_computer_first, #btn_player_first').on("click",function(){
 			turn = this.value
 			$('#btn_computer_first').attr('disabled',true)
@@ -58,11 +56,10 @@
 		table.rows[row].cells[col].innerHTML=sign;
 	}
 	function updateTable(){
-		console.log("updateTable")
-		console.log(turn)
-		
+		if(this.innerHTML != ""){
+			return
+		}
 		if(turn=="computer"){
-			console.log("here")
 			makeMove("","","x","computer");
 			turn="player";
 		}
@@ -70,7 +67,6 @@
 			var row = this.parentNode.rowIndex;
 			var col = this.cellIndex;
 			var sign = "o";
-			console.log(turn+" clicked "+row+" "+col)
 			assignCell(row,col,sign);
 			makeMove(row,col,sign,"player");
 		}
@@ -88,7 +84,6 @@
 	  		},
 
 	  		success: function(data){
-	  			console.log(data)
 	  				if(!emptyObject(data.move)){
 	  					assignCell(data.move.row,data.move.col,data.move.sign)
 	  				}
@@ -100,7 +95,7 @@
 	  				}
 		  		},
 		  	error: function(data){
-		  			console.log("error: "+data)
+		  			alert("error: "+data)
 		  		},
 	  		complete: function(){
 	  			$('.progress').css("display", "none");
