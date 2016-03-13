@@ -3,11 +3,8 @@
 Ruby version: 2.2.1
 
 System require:
-1. postgresql
-2. rails 4
+1. rails 4
 
-Database creation: 
-rake db:create
 
 Deployment instructions:
 Heroku rails 4 deployment instructions
