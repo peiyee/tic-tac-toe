@@ -27,6 +27,8 @@ module Tictactoe
 
 		def redraw_map(value)
 			@game_map = []
+			raise RangeError, "given array has invalid range!" if (value.count < size**2 || value.count > size**2)
+
 			value.each do |v|
 				temp = v.symbolize_keys
 				@game_map<<Cell.new(temp[:row].to_i,temp[:col].to_i,temp[:sign])
@@ -96,14 +98,14 @@ module Tictactoe
 			[0,size-1].product([0,size-1]).map{|p| Cell.new(p[0],p[1],"x")}.sample
 		end
 
-		def draw
+		def draw?
 			available_moves.empty? && !winner?
 		end
 
 		def over?
-			winner? || draw
+			winner? || draw?
 		end
-
+		private
 		def initialize_dup(other)
 	      super(other)
 	      @game_map = Marshal.load(Marshal.dump(other.game_map))
@@ -140,10 +142,6 @@ module Tictactoe
 			end
 			@best_choice, best_score = best_move(current_player, scores)
 			best_score
-		end
-
-		def game_over?(board)
-			board.winner || board.tie?
 		end
 
 		def best_move(sign, scores)

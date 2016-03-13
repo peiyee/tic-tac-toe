@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 		engine = BoardEngine.new("x")
 		last_game_map = session[:game_map]
 		board = Board.new(3)
-		board.redraw_map(last_game_map)
+		board.redraw_map(last_game_map) unless last_game_map.nil?
 		board.mark({row: params[:row].to_i, col: params[:col].to_i}, params[:sign]) if params[:turn] == "player"
 		best_move = engine.move(board)
 		if board.over?
@@ -28,7 +28,7 @@ class HomeController < ApplicationController
 	private
 
 	def clear_session
-		session[:game_map] = []
+		session[:game_map] = nil
 	end
 
 	def require_params
