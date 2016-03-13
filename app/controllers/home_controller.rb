@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-	include TicTacToe
+	include Tictactoe
 	def index
 		board = Board.new(3)
 		session[:game_map] =  board.game_map

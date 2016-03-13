@@ -1,4 +1,4 @@
-module TicTacToe
+module Tictactoe
 	class Board
 		attr_reader :size, :winner, :game_map
 		Cell = Struct.new(:row, :col, :sign) 
