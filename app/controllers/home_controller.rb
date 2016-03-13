@@ -1,5 +1,5 @@
-require 'tictactoe'
 class HomeController < ApplicationController
+	include TicTacToe
 	def index
 		board = Board.new(3)
 		session[:game_map] =  board.game_map
@@ -7,7 +7,7 @@ class HomeController < ApplicationController
 
 	def update
 		if turn = params[:turn]
-			engine = Engine.new("x")
+			engine = BoardEngine.new("x")
 			best_move={}
 			game_status = {over: false}
 			last_game_map = session[:game_map]
