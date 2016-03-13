@@ -1,3 +1,6 @@
+<% if flash[:error] %>
+	<div>error</div>
+<% end %>
 <h1>Tic Tac Toe</h1>
 <button id="btn_computer_first" value="computer">Computer First</button>
 <button id="btn_player_first" value="player">You First</button>
@@ -84,14 +87,15 @@
 	  		},
 
 	  		success: function(data){
+	  			console.log(data)
 	  				if(!emptyObject(data.move)){
 	  					assignCell(data.move.row,data.move.col,data.move.sign)
 	  				}
-	  				if(data.game_status.over){
-	  					if(!data.game_status.winner)
-	  						alert("Draw")
+	  				if(data.over){
+	  					if (data.winner)
+	  						alert("Winner is: "+ data.winner)
 	  					else
-	  						alert("Winner is: "+ data.game_status.winner)
+	  						alert("Draw")
 	  				}
 		  		},
 		  	error: function(data){
@@ -104,6 +108,11 @@
 		  	});
 	};
 	function emptyObject(obj){
-		return Object.keys(obj).length === 0 && JSON.stringify(obj) === JSON.stringify({})
+		var emptyOrNull = false
+		if(!obj)
+			emptyOrNull = true
+		else
+			emptyOrNull = Object.keys(obj).length === 0 && JSON.stringify(obj) === JSON.stringify({})
+		return emptyOrNull
 	}
 </script>

@@ -12,9 +12,17 @@ module Tictactoe
 			end
 		end
 
-		def mark(previous_cell,sign)
-			cell = @game_map.detect {|c| c.row == previous_cell.row && c.col == previous_cell.col}
-			cell.sign = sign
+		def mark(input,sign)
+			unless input.kind_of?(Cell)
+				input = Cell.new(input[:row], input[:col])
+			end
+			cell = @game_map.detect {|c| c.row == input.row && c.col == input.col}
+			if cell.nil?
+				false #return false to show the cell cannot be found
+			else
+				cell.sign = sign
+				true #return true if the cell is marked
+			end
 		end
 
 		def redraw_map(value)
@@ -110,6 +118,7 @@ module Tictactoe
 		end
 
 		def move(board)
+			return if board.over?
 			if board.empty?
 				# to save calculation time when the board is empty
 				@best_choice = board.corner_cell
