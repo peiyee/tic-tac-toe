@@ -1,8 +1,8 @@
-== README
+# README
 
-Ruby version: 2.2.1
+Ruby version: `2.2.1`
 
-System require: rails 4
+System require: `Rails 4`
 
 Deployment instructions:
 Please follow Heroku rails 4 deployment instructions
